@@ -23,7 +23,7 @@ const accountB = {
 
 const accounts = [accountA, accountB];
 
-function validateCardNumber() {
+function validateCardNumber(cardNumber) {
   return accounts.find((account) => account.cardNumber === cardNumber);
 }
 function validatePin() {
