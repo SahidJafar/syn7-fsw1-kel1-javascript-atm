@@ -37,11 +37,12 @@ function validatePin(cardNumber, pin) {
   }
 }
 
-function checkBalance() {
+function checkBalance(currentUser) {
   // TODO: check balance
+  console.log(`Saldo Anda saat ini adalah Rp ${currentUser.balance}`);
 }
 
-async function deposit(account) {
+async function deposit(currentUser) {
   const depositAmount = parseFloat(
     await askQuestion("Masukkan jumlah uang yang ingin Anda setor: ")
   );
@@ -51,7 +52,7 @@ async function deposit(account) {
     return;
   }
 
-  account.balance += depositAmount;
+  currentUser.balance += depositAmount;
   console.log(`Anda berhasil menyetor uang sebesar Rp ${depositAmount}.`);
 
   // Record the transaction
@@ -59,17 +60,17 @@ async function deposit(account) {
     type: "Deposit",
     amount: depositAmount,
   };
-  account.transactions.push(transaction);
+  currentUser.transactions.push(transaction);
 }
 
-function viewTransactions(account) {
+function viewTransactions(currentUser) {
   // TODO: view transactions
   console.log("Riwayat Transaksi:");
 
-  if (account.transactions.length === 0) {
+  if (currentUser.transactions.length === 0) {
     console.log("Belum ada transaksi.");
   } else {
-    account.transactions.forEach((transaction, index) => {
+    currentUser.transactions.forEach((transaction, index) => {
       console.log(
         `${index + 1}. ${transaction.type}: Rp ${transaction.amount}`
       );
@@ -118,6 +119,7 @@ async function main() {
       console.log("Nomor kartu tidak valid. Silahkan coba lagi.");
     }
   }
+  let choice;
   do {
     console.log("====================================");
     console.log("Menu ATM:");
@@ -131,6 +133,7 @@ async function main() {
     switch (parseInt(choice)) {
       case 1:
         // TODO: check balance
+        checkBalance(currentUser);
         break;
       case 2:
         await deposit(currentUser);
@@ -141,12 +144,14 @@ async function main() {
         break;
       case 4:
         // TODO: exit
-        console.log("Terima kasih telah menggunakan layanan ATM. Sampai jumpa!");
+        console.log(
+          "Terima kasih telah menggunakan layanan ATM. Sampai jumpa!"
+        );
         console.log("====================================");
         rl.close();
         return;
     }
-  } while (choice !== 4); 
+  } while (choice !== "4");
 }
 
 main();
