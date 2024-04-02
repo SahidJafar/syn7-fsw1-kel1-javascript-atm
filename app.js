@@ -62,8 +62,19 @@ async function deposit(account) {
   account.transactions.push(transaction);
 }
 
-function viewTransactions() {
+function viewTransactions(account) {
   // TODO: view transactions
+  console.log("Riwayat Transaksi:");
+
+  if (account.transactions.length === 0) {
+    console.log("Belum ada transaksi.");
+  } else {
+    account.transactions.forEach((transaction, index) => {
+      console.log(
+        `${index + 1}. ${transaction.type}: Rp ${transaction.amount}`
+      );
+    });
+  }
 }
 
 function askQuestion(question) {
@@ -126,13 +137,16 @@ async function main() {
         break;
       case 3:
         // TODO: view transactions
+        viewTransactions(currentUser);
         break;
+      case 4:
+        // TODO: exit
+        console.log("Terima kasih telah menggunakan layanan ATM. Sampai jumpa!");
+        console.log("====================================");
+        rl.close();
+        return;
     }
-  } while (choice !== 4);
-
-  console.log("Terima kasih telah menggunakan layanan ATM. Sampai jumpa!");
-  console.log("====================================");
-  rl.close();
+  } while (choice !== 4); 
 }
 
 main();
